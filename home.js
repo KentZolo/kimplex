@@ -25,6 +25,8 @@ function displayList(items, containerId) {
 }
 
 function showDetails(item) {
+  // 🛠️ Fix: Add media_type if missing
+  item.media_type = item.media_type || (item.title ? "movie" : "tv");
   currentItem = item;
   document.getElementById('modal-title').textContent = item.title || item.name;
   document.getElementById('modal-description').textContent = item.overview;
