@@ -1,4 +1,4 @@
-const API_KEY = '77312bdd4669c80af3d08e0bf719d7ff'; // ← PALITAN ITO NG TMDB KEY MO
+const API_KEY = '77312bdd4669c80af3d08e0bf719d7ff';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 
@@ -56,10 +56,21 @@ function changeServer() {
   iframe.src = embedURL;
   iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
 
-  // Optional error handling
   iframe.onerror = () => {
     alert("⚠️ This movie is not available on this server. Try another.");
   };
+}
+
+// Genre filter (for movies)
+function filterByGenre(genreId) {
+  const endpoint = genreId
+    ? `/discover/movie?with_genres=${genreId}`
+    : '/movie/popular';
+
+  fetch(`${BASE_URL}${endpoint}&api_key=${API_KEY}`)
+    .then(res => res.json())
+    .then(data => displayList(data.results, 'popular-movies'))
+    .catch(err => console.error('Genre filter error:', err));
 }
 
 // 🔍 SEARCH FEATURE
@@ -103,8 +114,9 @@ function searchTMDB() {
     .catch(error => console.error('Search error:', error));
 }
 
-// 🔄 LOAD SECTIONS
-fetchData('/trending/all/day', data => displayList(data, 'trending'));
-fetchData('/movie/top_rated', data => displayList(data, 'top-rated'));
-fetchData('/movie/popular', data => displayList(data, 'popular'));
+// Load content
+fetchData('/movie/now_playing', data => displayList(data, 'now-playing'));
+fetchData('/trending/movie/day', data => displayList(data, 'trending-movies'));
+fetchData('/trending/tv/day', data => displayList(data, 'trending-tv'));
+fetchData('/movie/popular', data => displayList(data, 'popular-movies'));
 fetchData('/tv/popular', data => displayList(data, 'popular-series'));
