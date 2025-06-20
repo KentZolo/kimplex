@@ -12,7 +12,7 @@
     <img src="logo.png" alt="Kimplex Logo" style="height: 40px;" />
     <div class="nav-links">
       <a href="index.html">Home</a>
-      <input type="text" class="search-bar" placeholder="Search..." onfocus="openSearchModal()" />
+      <input type="text" id="search-input" placeholder="Search for a movie or show..." oninput="searchTMDB()" onclick="openSearchModal()" />
     </div>
   </div>
 
@@ -74,12 +74,13 @@
 
   <!-- 🔍 Search Modal -->
   <div class="modal" id="search-modal">
-    <div class="modal-content">
+    <div class="modal-content" style="flex-direction: column; align-items: flex-start;">
       <span class="close" onclick="closeSearchModal()" style="color: red;">&times;</span>
       <div class="movie-list" id="search-results"></div>
     </div>
   </div>
 
+  <!-- 🦶 Footer -->
   <footer class="footer">
     <div class="footer-content">
       <p>&copy; 2025 Kimplex. All rights reserved.</p>
