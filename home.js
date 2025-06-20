@@ -128,3 +128,19 @@ fetchData('/tv/popular', data => displayList(data, 'popular-series'));
 function toggleMenu() {
   document.getElementById('menu').classList.toggle('show');
 }
+// ✅ AUTO-OPEN MODAL & VIDEO FROM URL
+window.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+  const type = params.get("type");
+
+  if (id && type) {
+    fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}`)
+      .then(res => res.json())
+      .then(data => {
+        data.media_type = type; // Manually set
+        showDetails(data);      // Open modal with video
+      })
+      .catch(err => console.error("Auto-load error:", err));
+  }
+});
