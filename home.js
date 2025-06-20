@@ -28,6 +28,9 @@ function showDetails(item) {
   // 🛠️ Fix: Add media_type if missing
   item.media_type = item.media_type || (item.title ? "movie" : "tv");
   currentItem = item;
+  const type = item.media_type;
+  const url = `?type=${type}&id=${item.id}`;
+  window.history.pushState({}, '', url);
   document.getElementById('modal-title').textContent = item.title || item.name;
   document.getElementById('modal-description').textContent = item.overview;
   document.getElementById('modal-rating').innerHTML = '★'.repeat(Math.round(item.vote_average / 2));
