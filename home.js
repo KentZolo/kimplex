@@ -120,3 +120,6 @@ fetchData('/trending/movie/day', data => displayList(data, 'trending-movies'));
 fetchData('/trending/tv/day', data => displayList(data, 'trending-tv'));
 fetchData('/movie/popular', data => displayList(data, 'popular-movies'));
 fetchData('/tv/popular', data => displayList(data, 'popular-series'));
+function toggleMenu() {
+  document.getElementById('menu').classList.toggle('show');
+}
