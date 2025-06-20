@@ -58,7 +58,9 @@ const API_KEY = '77312bdd4669c80af3d08e0bf719d7ff';
       const type = currentItem.media_type === "movie" ? "movie" : "tv";
       let embedURL = "";
 
-      if (server === "vidsrc.cc") {
+      if (server === "apimocine") {
+        embedURL = `https://apimocine.vercel.app/${type}/${currentItem.id}?autoplay=true`;
+      } else if (server === "vidsrc.cc") {
         embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
       } else if (server === "vidsrc.me") {
         embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
@@ -66,7 +68,9 @@ const API_KEY = '77312bdd4669c80af3d08e0bf719d7ff';
         embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
       }
 
-      document.getElementById('modal-video').src = embedURL;
+     const iframe = document.getElementById('modal-video');
+     iframe.src = embedURL;
+     iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
     }
 
     function closeModal() {
