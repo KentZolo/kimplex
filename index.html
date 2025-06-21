@@ -3,21 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kimplex - Watch Movies and TV</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <title>Kimplex</title>
   <link rel="stylesheet" href="home.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/css/splide.min.css" />
 </head>
 <body>
 
-  <!-- ✅ Logo and Search Bar -->
   <div class="navbar">
     <a href="index.html" class="logo-text">Kimplex</a>
-    <div class="nav-search">
-      <input type="text" id="search-input" placeholder="Search..." oninput="searchTMDB()" onclick="openSearchModal()" />
-    </div>
   </div>
 
   <!-- ✅ Featured Carousel -->
@@ -30,85 +25,27 @@
     </div>
   </section>
 
-  <!-- ✅ Now Playing -->
+  <!-- ✅ Placeholder Sections -->
   <section>
     <h2>Now Playing</h2>
     <div class="movie-list" id="now-playing"></div>
   </section>
 
-  <!-- ✅ Trending Movies -->
-  <section>
-    <h2>Trending Movies</h2>
-    <div class="movie-list" id="trending-movies"></div>
-  </section>
-
-  <!-- ✅ Trending TV Shows -->
-  <section>
-    <h2>Trending TV Shows</h2>
-    <div class="movie-list" id="trending-tv"></div>
-  </section>
-
-  <!-- ✅ Popular Movies -->
-  <section>
-    <h2>Popular Movies</h2>
-    <div class="movie-list" id="popular-movies"></div>
-  </section>
-
-  <!-- ✅ Popular Series -->
-  <section>
-    <h2>Popular Series</h2>
-    <div class="movie-list" id="popular-series"></div>
-  </section>
-
-  <!-- ✅ Modal for Video Playback -->
+  <!-- Modal -->
   <div class="modal" id="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()" style="color: red;">&times;</span>
-
-      <div class="server-selector">
-        <label for="server">Change Server:</label>
-        <select id="server" onchange="changeServer()">
-          <option value="apimocine">Server 1</option>
-          <option value="vidsrc.cc">Server 2</option>
-          <option value="vidsrc.me">Server 3</option>
-          <option value="player.videasy.net">Server 4</option>
-        </select>
-      </div>
-
-      <div style="background-color: #2b2b2b; border-left: 4px solid orange; padding: 10px; margin: 10px 0; border-radius: 5px;">
-        <p style="color: #f2a600; font-size: 14px; margin: 0;">
-          ⚠️ If you get any error message when trying to stream, please refresh the page or switch to another streaming server.
-        </p>
-      </div>
-
       <iframe id="modal-video" width="100%" height="315" frameborder="0" allowfullscreen sandbox="allow-scripts allow-same-origin"></iframe>
-
-      <div class="modal-text" style="text-align: left; margin-top: 15px;">
+      <div class="modal-text">
         <h2 id="modal-title"></h2>
-        <div class="stars" id="modal-rating"></div>
+        <div id="modal-rating"></div>
         <p id="modal-description"></p>
       </div>
     </div>
   </div>
 
-  <!-- ✅ Search Modal -->
-  <div class="modal" id="search-modal">
-    <div class="modal-content" style="flex-direction: column; align-items: flex-start;">
-      <span class="close" onclick="closeSearchModal()" style="color: red;">&times;</span>
-      <div class="movie-list" id="search-results"></div>
-    </div>
-  </div>
-
-  <!-- ✅ Footer Disclaimer -->
-  <footer class="footer">
-    <div class="footer-content">
-      <p>&copy; 2025 Kimplex. All rights reserved.</p>
-      <p style="font-size: 12px; color: #aaa;">
-        Disclaimer: Kimplex does not host or upload any video content. All video links are embedded from third-party sources.
-      </p>
-    </div>
-  </footer>
-
-  <!-- ✅ Scripts -->
+  <!-- Scripts -->
   <script src="home.js"></script>
-  <scr
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.min.js"></script>
+</body>
+</html>
