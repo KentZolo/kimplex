@@ -3,41 +3,47 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_BASE = 'https://image.tmdb.org/t/p/w500';
 
 const SERVERS = [
-  { name: 'Vidsrc.to', id: 'vidsrc', url: (id) => `https://vidsrc.to/embed/movie/${id}` },
-  { name: 'Apimocine', id: 'apimocine', url: (title) => `https://apimocine.xyz/embed/${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}` },
+  { name: 'Vidsrc.to', id: 'vidsrc', url: (type, id) => `https://vidsrc.to/embed/${type}/${id}` },
+  { name: 'Apimocine', id: 'apimocine', url: (type, title) => `https://apimocine.xyz/embed/${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}` },
 ];
 
-async function fetchTrendingMovies() {
-  const res = await fetch(`${BASE_URL}/trending/movie/day?api_key=${API_KEY}`);
+async function fetchAndDisplay(endpoint, containerSelector, type) {
+  const res = await fetch(`${BASE_URL}${endpoint}?api_key=${API_KEY}`);
   const data = await res.json();
-  displayMovies(data.results);
+  displayMedia(data.results, containerSelector, type);
 }
 
-function displayMovies(movies) {
-  const cardList = document.querySelector('.movie-list');
-  cardList.innerHTML = '';
+function displayMedia(items, containerSelector, defaultType) {
+  const container = document.querySelector(containerSelector);
+  container.innerHTML = '';
 
-  movies.forEach(movie => {
+  items.forEach(item => {
+    const id = item.id;
+    const title = item.title || item.name;
+    const poster = item.poster_path ? IMG_BASE + item.poster_path : '';
+    const mediaType = item.media_type || defaultType;
+
     const card = document.createElement('div');
     card.classList.add('poster-wrapper');
     card.innerHTML = `
-      <img src="${IMG_BASE + movie.poster_path}" alt="${movie.title}" />
-      <div class="poster-label">${movie.title}</div>
-      <button class="watch-btn" data-id="${movie.id}" data-title="${movie.title}">▶ Watch</button>
+      <img src="${poster}" alt="${title}" />
+      <div class="poster-label">${title}</div>
+      <button class="watch-btn" data-id="${id}" data-title="${title}" data-type="${mediaType}">▶ Watch</button>
     `;
-    cardList.appendChild(card);
+    container.appendChild(card);
   });
 
   document.querySelectorAll('.watch-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-id');
       const title = btn.getAttribute('data-title');
-      openPlayer(id, title);
+      const type = btn.getAttribute('data-type');
+      openPlayer(id, title, type);
     });
   });
 }
 
-function openPlayer(movieId, title) {
+function openPlayer(itemId, title, mediaType) {
   const modal = document.createElement('div');
   modal.classList.add('modal');
 
@@ -66,15 +72,14 @@ function openPlayer(movieId, title) {
     select.appendChild(option);
   });
 
-  let currentServerIndex = 0;
-
   function loadServer(index) {
     const server = SERVERS[index];
     select.value = server.id;
-    const embedURL = server.id === 'vidsrc' ? server.url(movieId) : server.url(title);
+    const embedURL = server.id === 'vidsrc'
+      ? server.url(mediaType, itemId)
+      : server.url(mediaType, title);
     iframe.src = embedURL;
 
-    // Reset iframe shield
     const shield = modal.querySelector('.iframe-shield');
     shield.style.display = 'block';
     setTimeout(() => shield.remove(), 5000);
@@ -88,16 +93,16 @@ function openPlayer(movieId, title) {
     };
   }
 
-  loadServer(currentServerIndex);
-
+  loadServer(0);
   modal.querySelector('.close-btn').onclick = () => modal.remove();
-
   select.onchange = () => {
     const selectedIndex = SERVERS.findIndex(s => s.id === select.value);
-    if (selectedIndex !== -1) {
-      loadServer(selectedIndex);
-    }
+    if (selectedIndex !== -1) loadServer(selectedIndex);
   };
 }
 
-document.addEventListener('DOMContentLoaded', fetchTrendingMovies);
+document.addEventListener('DOMContentLoaded', () => {
+  fetchAndDisplay('/trending/all/day', '.movie-list', 'movie');
+  fetchAndDisplay('/tv/popular', '.tv-list', 'tv');
+  fetchAndDisplay('/movie/popular', '.popular-list', 'movie');
+});
