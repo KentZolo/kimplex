@@ -5,7 +5,9 @@ const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 let currentItem = null;
 
 function fetchData(endpoint, callback) {
-  fetch(`${BASE_URL}${endpoint}?api_key=${API_KEY}`)
+  const url = new URL(`${BASE_URL}${endpoint}`);
+  url.searchParams.set('api_key', API_KEY);
+  fetch(url)
     .then(response => response.json())
     .then(data => callback(data.results))
     .catch(error => console.error('Error:', error));
@@ -16,11 +18,21 @@ function displayList(items, containerId) {
   container.innerHTML = '';
   items.forEach(item => {
     if (!item.poster_path) return;
+    const wrapper = document.createElement('div');
+    wrapper.className = 'poster-wrapper';
+
     const img = document.createElement('img');
     img.src = `${IMG_URL}${item.poster_path}`;
     img.alt = item.title || item.name;
     img.onclick = () => showDetails(item);
-    container.appendChild(img);
+
+    const label = document.createElement('div');
+    label.className = 'poster-label';
+    label.textContent = item.title || item.name;
+
+    wrapper.appendChild(img);
+    wrapper.appendChild(label);
+    container.appendChild(wrapper);
   });
 }
 
@@ -68,7 +80,6 @@ function changeServer() {
   };
 }
 
-// 🔍 SEARCH FEATURE
 function openSearchModal() {
   document.getElementById('search-modal').style.display = 'flex';
   document.getElementById('search-input').focus();
@@ -87,7 +98,11 @@ function searchTMDB() {
     return;
   }
 
-  fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(query)}`)
+  const url = new URL(`${BASE_URL}/search/multi`);
+  url.searchParams.set('api_key', API_KEY);
+  url.searchParams.set('query', query);
+
+  fetch(url)
     .then(response => response.json())
     .then(data => {
       resultsContainer.innerHTML = '';
@@ -109,14 +124,18 @@ function searchTMDB() {
     .catch(error => console.error('Search error:', error));
 }
 
-// Load content (removed now playing)
+// Load content
+fetchData('/movie/now_playing', data => displayList(data, 'now-playing'));
 fetchData('/trending/movie/day', data => displayList(data, 'trending-movies'));
 fetchData('/trending/tv/day', data => displayList(data, 'trending-tv'));
 fetchData('/movie/popular', data => displayList(data, 'popular-movies'));
 fetchData('/tv/popular', data => displayList(data, 'popular-series'));
 
-// ✅ Load Featured Movies for Carousel
-fetch(`${BASE_URL}/movie/now_playing?api_key=${API_KEY}`)
+// Load Featured Movies for Carousel
+const featuredUrl = new URL(`${BASE_URL}/movie/now_playing`);
+featuredUrl.searchParams.set('api_key', API_KEY);
+
+fetch(featuredUrl)
   .then(res => res.json())
   .then(data => {
     const featuredList = document.getElementById('featured-list');
@@ -125,7 +144,14 @@ fetch(`${BASE_URL}/movie/now_playing?api_key=${API_KEY}`)
       li.className = 'splide__slide';
       li.innerHTML = `
         <img src="${IMG_URL}${movie.backdrop_path || movie.poster_path}" alt="${movie.title}">
-        <div class="caption">${movie.title}</div>
+        <div class="caption" style="
+          font-family: 'Press Start 2P', sans-serif;
+          background: linear-gradient(90deg, violet, deeppink);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          text-shadow: 0 0 5px hotpink, 0 0 10px violet;
+          font-size: 10px; padding: 5px 0;
+        ">${movie.title}</div>
       `;
       li.onclick = () => showDetails({ ...movie, media_type: "movie" });
       featuredList.appendChild(li);
@@ -141,14 +167,17 @@ fetch(`${BASE_URL}/movie/now_playing?api_key=${API_KEY}`)
   })
   .catch(err => console.error("Failed to load featured movies:", err));
 
-// ✅ Auto-open modal from URL if present
+// Auto-open modal from URL if present
 window.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
   const type = params.get("type");
 
   if (id && type) {
-    fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}`)
+    const url = new URL(`${BASE_URL}/${type}/${id}`);
+    url.searchParams.set('api_key', API_KEY);
+
+    fetch(url)
       .then(res => res.json())
       .then(data => {
         if (data.success === false || data.status_code === 34) {
