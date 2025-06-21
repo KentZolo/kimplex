@@ -9,9 +9,9 @@ const SERVERS = [
     url: (type, id) => `https://vidsrc.cc/v2/embed/${type}/${id}`
   },
   {
-    name: 'Server 2',
-  id: 'apimocine',
-  url: (type, id) => `https://apimocine.vercel.app/${type}/${id}?autoplay=true`
+    name: 'Apimocine (No Ads)',
+    id: 'apimocine',
+    url: (type, id) => `https://apimocine.vercel.app/${type}/${id}?autoplay=true`
   }
 ];
 
