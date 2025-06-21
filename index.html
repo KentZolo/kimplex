@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kimplex - Watch Movies</title>
   <link rel="stylesheet" href="home.css" />
 </head>
-<body>
 
+<body>
   <!-- ✅ Top Navbar -->
   <header class="navbar">
     <div class="logo"><span class="icon">▶</span> <span class="brand">Kimplex</span></div>
@@ -17,12 +18,22 @@
     </div>
   </header>
 
-  <!-- ✅ Trending Movies Section -->
+  <!-- ✅ Trending Section -->
   <section class="trending">
-    <div class="section-header">
-      <h2>Trending Movies</h2>
-    </div>
-    <div class="movie-list card-list"></div>
+    <h2>🔥 Trending Today</h2>
+    <div class="movie-list"></div>
+  </section>
+
+  <!-- ✅ Popular Movies Section -->
+  <section class="popular-movies">
+    <h2>🎬 Popular Movies</h2>
+    <div class="popular-list"></div>
+  </section>
+
+  <!-- ✅ Popular TV Shows Section -->
+  <section class="popular-tv">
+    <h2>📺 Popular TV Shows</h2>
+    <div class="tv-list"></div>
   </section>
 
   <!-- ✅ Bottom Navigation -->
@@ -35,8 +46,6 @@
     <button>📃 Watchlist</button>
   </nav>
 
-  <!-- ✅ Modal gets injected here via JS -->
-
   <!-- ✅ JS File -->
   <script src="home.js" defer></script>
 
@@ -44,4 +53,5 @@
     <p style="color: red; text-align: center;">Please enable JavaScript to view content.</p>
   </noscript>
 </body>
+
 </html>
