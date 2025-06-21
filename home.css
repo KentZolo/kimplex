@@ -278,3 +278,29 @@ h2 {
     display: flex;
   }
 }
+  .splide {
+  margin: 20px 0;
+}
+
+.splide__slide {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.splide__slide img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.splide__slide .caption {
+  position: absolute;
+  bottom: 10px;
+  left: 15px;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #fff;
+}
