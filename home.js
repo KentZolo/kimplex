@@ -4,17 +4,12 @@ const IMG_BASE = 'https://image.tmdb.org/t/p/w500';
 
 const SERVERS = [
   {
-    name: 'Vidsrc.to',
-    id: 'vidsrc',
-    url: (type, id) => `https://vidsrc.to/embed/${type}/${id}`
-  },
-  {
-    name: 'Vidsrc.cc',
+    name: 'Server 1',
     id: 'vidsrccc',
     url: (type, id) => `https://vidsrc.cc/v2/embed/${type}/${id}`
   },
   {
-    name: 'Apimocine',
+    name: 'Server 2',
     id: 'apimocine',
     url: (type, title) => `https://apimocine.xyz/embed/${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
   }
