@@ -10,8 +10,8 @@ const SERVERS = [
   },
   {
     name: 'Server 2',
-    id: 'apimocine',
-    url: (type, title) => `https://apimocine.xyz/embed/${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
+  id: 'apimocine',
+  url: (type, id) => `https://apimocine.vercel.app/${type}/${id}?autoplay=true`
   }
 ];
 
