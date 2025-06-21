@@ -11,38 +11,6 @@
   <div class="navbar">
     <div class="logo-text">Kimplex</div>
   
-    <!-- ☰ Hamburger icon -->
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
-
-    <!-- Hidden menu -->
-    <div class="menu-links" id="menu">
-      <a href="#">Movies</a>
-      <a href="#">TV Shows</a>
-      <a href="#">Categories</a>
-    </div>
-
-    <!-- Search bar (optional beside hamburger) -->
-    <div class="nav-search">
-      <input type="text" id="search-input" placeholder="Search..." oninput="searchTMDB()" onclick="openSearchModal()" />
-    </div>
-  </div>
-
-  <!-- 🎯 Genre Buttons -->
-  <div id="genre-buttons" class="genre-buttons">
-    <button onclick="filterByGenre('')">All</button>
-    <button onclick="filterByGenre('28')">Action</button>
-    <button onclick="filterByGenre('35')">Comedy</button>
-    <button onclick="filterByGenre('18')">Drama</button>
-    <button onclick="filterByGenre('27')">Horror</button>
-    <button onclick="filterByGenre('10749')">Romance</button>
-  </div>
-
-  <!-- 🎬 Sections -->
-  <section>
-    <h2>Now Playing</h2>
-    <div class="movie-list" id="now-playing"></div>
-  </section>
-
   <section>
     <h2>Trending Movies</h2>
     <div class="movie-list" id="trending-movies"></div>
