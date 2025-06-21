@@ -3,55 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kimplex - Home</title>
+  <title>Kimplex - Watch Movies</title>
   <link rel="stylesheet" href="home.css" />
 </head>
 <body>
+
+  <!-- ✅ Top Navbar -->
   <header class="navbar">
     <div class="logo"><span class="icon">▶</span> <span class="brand">Kimplex</span></div>
     <div class="search-icons">
       <button>🔍</button>
-      <button>↻</button>
+      <button onclick="location.reload()">↻</button>
     </div>
   </header>
 
-  <section class="hero">
-    <img src="banner.jpg" alt="Kpop Demon Hunters" class="banner" />
-    <div class="movie-info">
-      <h1>K-POP DEMON HUNTERS</h1>
-      <p class="meta">⭐ 8.1 • Movie • 2025</p>
-      <p class="tagline">"They sing. They dance. They battle demons."</p>
-      <div class="buttons">
-        <button class="play">▶ Play</button>
-        <button class="trailer">🎬 Trailer</button>
-      </div>
-    </div>
-  </section>
-
+  <!-- ✅ Trending Movies Section -->
   <section class="trending">
     <div class="section-header">
-      <h2>Trending</h2>
-      <div class="tabs">
-        <button class="tab active">Day</button>
-        <button class="tab">Week</button>
-      </div>
+      <h2>Trending Movies</h2>
     </div>
-    <div class="card-list">
-      <div class="card">
-        <img src="superman.jpg" alt="Superman" />
-        <div class="rating">+</div>
-      </div>
-      <div class="card">
-        <img src="romcom.jpg" alt="RomCom" />
-        <div class="rating">5.2</div>
-      </div>
-      <div class="card">
-        <img src="sci-fi.jpg" alt="Sci-Fi" />
-        <div class="rating">7.0</div>
-      </div>
-    </div>
+    <div class="movie-list card-list"></div>
   </section>
 
+  <!-- ✅ Bottom Navigation -->
   <nav class="bottom-nav">
     <button>🏠 Home</button>
     <button>🎬 Movies</button>
@@ -61,6 +35,13 @@
     <button>📃 Watchlist</button>
   </nav>
 
-  <script src="home.js"></script>
+  <!-- ✅ Modal gets injected here via JS -->
+
+  <!-- ✅ JS File -->
+  <script src="home.js" defer></script>
+
+  <noscript>
+    <p style="color: red; text-align: center;">Please enable JavaScript to view content.</p>
+  </noscript>
 </body>
 </html>
