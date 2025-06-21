@@ -1,142 +1,103 @@
-/* Global Styles */
 body {
   margin: 0;
   background-color: #111;
   color: white;
   font-family: 'Press Start 2P', sans-serif;
-  line-height: 1.5;
 }
 
-/* Logo Text */
 .logo-text {
   font-size: 18px;
   text-align: center;
-  letter-spacing: 1px;
   background: linear-gradient(90deg, violet, deeppink);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 5px hotpink, 0 0 10px violet;
-  margin-bottom: 10px;
+  margin: 10px auto;
   text-decoration: none;
+  display: block;
 }
 
-/* Navbar */
-.navbar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 15px;
-  background: #000;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.nav-search input {
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: none;
-  outline: none;
-  width: 90%;
-  max-width: 400px;
-  margin-top: 10px;
+h2 {
+  text-align: left;
+  padding: 0 10px;
   font-size: 12px;
-}
-
-/* Section Headers */
-section h2 {
-  font-size: 14px;
-  padding-left: 10px;
-  margin: 20px 0 10px;
   background: linear-gradient(90deg, violet, deeppink);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 5px hotpink, 0 0 10px violet;
 }
 
-/* Movie List Wrapper */
 .movie-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
   justify-content: center;
+  gap: 12px;
   padding: 10px;
 }
 
 .poster-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 45%;
   max-width: 150px;
-  margin-bottom: 20px;
+  text-align: center;
 }
 
 .poster-wrapper img {
   width: 100%;
   border-radius: 6px;
   cursor: pointer;
-  transition: transform 0.2s ease;
 }
 
-.poster-wrapper img:hover {
-  transform: scale(1.05);
+.splide {
+  margin: 30px 0;
 }
 
-.poster-label {
-  margin-top: 6px;
-  font-size: 10px;
-  text-align: center;
+.splide__slide {
+  position: relative;
+}
+
+.splide__slide img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.caption {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 12px;
+  font-family: 'Press Start 2P', sans-serif;
   background: linear-gradient(90deg, violet, deeppink);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 5px hotpink, 0 0 10px violet;
 }
 
-/* Splide Slider */
-.splide {
-  margin: 20px 0;
-}
-
-.splide__slide img {
-  width: 100%;
-  border-radius: 8px;
-}
-
-.caption {
-  position: absolute;
-  bottom: 10px;
-  left: 15px;
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 10px;
-  font-family: 'Press Start 2P', sans-serif;
+.splide__arrow {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  width: 40px;
+  height: 40px;
   color: white;
+  font-size: 18px;
+  box-shadow: 0 0 10px #000;
 }
 
-/* Modal Centering Fix */
 .modal {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.9);
   justify-content: center;
   align-items: center;
+  z-index: 999;
 }
 
 .modal-content {
-  background-color: #000;
-  padding: 15px;
+  background: #000;
+  padding: 20px;
   border-radius: 8px;
   width: 90%;
   max-width: 800px;
   max-height: 90vh;
   overflow-y: auto;
 }
-
-/* Modal and Footer styles remain unchanged */
