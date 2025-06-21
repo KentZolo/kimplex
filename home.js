@@ -1,76 +1,59 @@
 const API_KEY = '77312bdd4669c80af3d08e0bf719d7ff';
 const BASE_URL = 'https://api.themoviedb.org/3';
-const IMG_URL = 'https://image.tmdb.org/t/p/w500';
+const IMG_BASE = 'https://image.tmdb.org/t/p/w500';
 
-let currentItem = null;
-
-function showDetails(item) {
-  currentItem = item;
-  item.media_type = item.media_type || 'movie';
-  document.getElementById('modal-title').textContent = item.title || item.name;
-  document.getElementById('modal-description').textContent = item.overview;
-  document.getElementById('modal-rating').innerHTML = '★'.repeat(Math.round(item.vote_average / 2));
-  document.getElementById('modal').style.display = 'flex';
-
-  const type = item.media_type;
-  const iframe = document.getElementById('modal-video');
-  iframe.src = `https://apimocine.vercel.app/${type}/${item.id}?autoplay=true`;
-  iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+// Replace with your iframe player base URL
+function getEmbedPlayerURL(movieId, title) {
+  // VDSCR example
+  return `https://vidsrc.to/embed/movie/${movieId}`;
+  // or Apimocine (replace `title` with slug if needed)
+  // return `https://apimocine.xyz/embed/${title}`;
 }
 
-function closeModal() {
-  document.getElementById('modal').style.display = 'none';
+async function fetchTrendingMovies() {
+  const res = await fetch(`${BASE_URL}/trending/movie/day?api_key=${API_KEY}`);
+  const data = await res.json();
+  displayMovies(data.results);
 }
 
-function fetchFeaturedMovies() {
-  const url = new URL(`${BASE_URL}/movie/now_playing`);
-  url.searchParams.set('api_key', API_KEY);
+function displayMovies(movies) {
+  const cardList = document.querySelector('.card-list');
+  cardList.innerHTML = '';
 
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      const list = document.getElementById('featured-list');
-      data.results.slice(0, 5).forEach(movie => {
-        const li = document.createElement('li');
-        li.className = 'splide__slide';
-        li.innerHTML = `
-          <img src="${IMG_URL}${movie.backdrop_path || movie.poster_path}" alt="${movie.title}">
-          <div class="caption">${movie.title}</div>
-        `;
-        li.onclick = () => showDetails({ ...movie, media_type: 'movie' });
-        list.appendChild(li);
-      });
+  movies.forEach(movie => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    card.innerHTML = `
+      <img src="${IMG_BASE + movie.poster_path}" alt="${movie.title}" />
+      <div class="rating">${movie.vote_average.toFixed(1)}</div>
+      <button class="watch-btn" data-id="${movie.id}" data-title="${movie.title}">▶ Watch</button>
+    `;
+    cardList.appendChild(card);
+  });
 
-      new Splide('#featured-carousel', {
-        type: 'loop',
-        perPage: 1,
-        autoplay: true,
-        arrows: true,
-        pagination: false,
-      }).mount();
+  // Add click handlers for Watch buttons
+  document.querySelectorAll('.watch-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const id = btn.getAttribute('data-id');
+      const title = btn.getAttribute('data-title');
+      const embedUrl = getEmbedPlayerURL(id, title);
+      openPlayer(embedUrl);
     });
+  });
 }
 
-function fetchNowPlaying() {
-  const url = new URL(`${BASE_URL}/movie/now_playing`);
-  url.searchParams.set('api_key', API_KEY);
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      const list = document.getElementById('now-playing');
-      data.results.forEach(movie => {
-        const div = document.createElement('div');
-        div.className = 'poster-wrapper';
-        div.innerHTML = `
-          <img src="${IMG_URL}${movie.poster_path}" alt="${movie.title}">
-          <div class="poster-label">${movie.title}</div>
-        `;
-        div.onclick = () => showDetails({ ...movie, media_type: 'movie' });
-        list.appendChild(div);
-      });
-    });
+function openPlayer(url) {
+  const modal = document.createElement('div');
+  modal.classList.add('modal');
+  modal.innerHTML = `
+    <div class="modal-content">
+      <span class="close-btn">×</span>
+      <iframe src="${url}" width="100%" height="500" frameborder="0" allowfullscreen></iframe>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  modal.querySelector('.close-btn').onclick = () => modal.remove();
 }
 
-// Init
-fetchFeaturedMovies();
-fetchNowPlaying();
+document.addEventListener('DOMContentLoaded', fetchTrendingMovies);
