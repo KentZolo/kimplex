@@ -125,13 +125,16 @@ function searchTMDB() {
 }
 
 // Load content
-fetchData('/movie/now_playing', data => displayList(data, 'now-playing'));
+fetchData('/movie/now_playing', data => {
+  const updated = data.map(item => ({ ...item, media_type: 'movie' }));
+  displayList(updated, 'now-playing');
+});
 fetchData('/trending/movie/day', data => displayList(data, 'trending-movies'));
 fetchData('/trending/tv/day', data => displayList(data, 'trending-tv'));
 fetchData('/movie/popular', data => displayList(data, 'popular-movies'));
 fetchData('/tv/popular', data => displayList(data, 'popular-series'));
 
-// Load Featured Movies for Carousel
+// ✅ Featured Carousel with arrows and caption
 const featuredUrl = new URL(`${BASE_URL}/movie/now_playing`);
 featuredUrl.searchParams.set('api_key', API_KEY);
 
@@ -144,14 +147,7 @@ fetch(featuredUrl)
       li.className = 'splide__slide';
       li.innerHTML = `
         <img src="${IMG_URL}${movie.backdrop_path || movie.poster_path}" alt="${movie.title}">
-        <div class="caption" style="
-          font-family: 'Press Start 2P', sans-serif;
-          background: linear-gradient(90deg, violet, deeppink);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          text-shadow: 0 0 5px hotpink, 0 0 10px violet;
-          font-size: 10px; padding: 5px 0;
-        ">${movie.title}</div>
+        <div class="caption">${movie.title}</div>
       `;
       li.onclick = () => showDetails({ ...movie, media_type: "movie" });
       featuredList.appendChild(li);
