@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kimplex - Watch Movies</title>
   <link rel="stylesheet" href="home.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 </head>
 
 <body>
@@ -13,41 +14,113 @@
   <header class="navbar">
     <div class="logo"><span class="icon">▶</span> <span class="brand">Kimplex</span></div>
     <div class="search-icons">
-      <button>🔍</button>
-      <button onclick="location.reload()">↻</button>
+      <input type="text" id="search-input" placeholder="Search movies or shows..." />
+      <button id="search-button">🔍</button>
     </div>
   </header>
+
+  <!-- ✅ Category Filters -->
+  <section class="filters">
+    <button class="filter-btn active" data-genre="">All</button>
+    <button class="filter-btn" data-genre="28">Action</button>
+    <button class="filter-btn" data-genre="35">Comedy</button>
+    <button class="filter-btn" data-genre="18">Drama</button>
+    <button class="filter-btn" data-genre="27">Horror</button>
+    <button class="filter-btn" data-genre="10749">Romance</button>
+  </section>
 
   <!-- ✅ Trending Section -->
   <section class="trending">
     <h2>🔥 Trending Today</h2>
-    <div class="movie-list"></div>
+    <div class="swiper trending-swiper">
+      <div class="swiper-wrapper movie-list"></div>
+    </div>
   </section>
 
   <!-- ✅ Popular Movies Section -->
   <section class="popular-movies">
     <h2>🎬 Popular Movies</h2>
-    <div class="popular-list"></div>
+    <div class="swiper movie-swiper">
+      <div class="swiper-wrapper popular-list"></div>
+    </div>
   </section>
 
   <!-- ✅ Popular TV Shows Section -->
   <section class="popular-tv">
     <h2>📺 Popular TV Shows</h2>
-    <div class="tv-list"></div>
+    <div class="swiper tv-swiper">
+      <div class="swiper-wrapper tv-list"></div>
+    </div>
   </section>
 
   <!-- ✅ Bottom Navigation -->
   <nav class="bottom-nav">
-    <button>🏠 Home</button>
-    <button>🎬 Movies</button>
-    <button>🎭 TV Shows</button>
-    <button>✨ Anime</button>
-    <button>📺 IPTV</button>
-    <button>📃 Watchlist</button>
+    <button class="nav-btn active">🏠 Home</button>
+    <button class="nav-btn">🎬 Movies</button>
+    <button class="nav-btn">🎭 TV Shows</button>
+    <button class="nav-btn">✨ Anime</button>
+    <button class="nav-btn">📺 IPTV</button>
+    <button class="nav-btn">📃 Watchlist</button>
   </nav>
 
   <!-- ✅ JS File -->
   <script src="home.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script>
+    document.querySelectorAll('.bottom-nav .nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    new Swiper('.trending-swiper', {
+      slidesPerView: 2,
+      spaceBetween: 10,
+      breakpoints: {
+        640: { slidesPerView: 3 },
+        768: { slidesPerView: 4 },
+        1024: { slidesPerView: 5 },
+      }
+    });
+
+    new Swiper('.movie-swiper', {
+      slidesPerView: 2,
+      spaceBetween: 10,
+      breakpoints: {
+        640: { slidesPerView: 3 },
+        768: { slidesPerView: 4 },
+        1024: { slidesPerView: 5 },
+      }
+    });
+
+    new Swiper('.tv-swiper', {
+      slidesPerView: 2,
+      spaceBetween: 10,
+      breakpoints: {
+        640: { slidesPerView: 3 },
+        768: { slidesPerView: 4 },
+        1024: { slidesPerView: 5 },
+      }
+    });
+
+    document.getElementById('search-button').addEventListener('click', () => {
+      const query = document.getElementById('search-input').value.trim();
+      if (query.length > 1) {
+        window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+      }
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const genreId = btn.dataset.genre;
+        // Filter logic placeholder (can be implemented in JS later)
+        console.log('Filter genre:', genreId);
+      });
+    });
+  </script>
 
   <noscript>
     <p style="color: red; text-align: center;">Please enable JavaScript to view content.</p>
