@@ -2,47 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Kimplex - Movies</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kimplex - Watch Movies and TV</title>
+  <link rel="stylesheet" href="home.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/css/splide.min.css" />
 </head>
 <body>
 
-  <section>
-  <h2>🎬 Featured Movies</h2>
-  <div class="splide" id="featured-carousel">
-    <div class="splide__track">
-      <ul class="splide__list" id="featured-list">
-        <!-- JS will insert slides here -->
-      </ul>
+  <!-- ✅ Logo and Search Bar -->
+  <div class="navbar">
+    <a href="index.html" class="logo-text">Kimplex</a>
+    <div class="nav-search">
+      <input type="text" id="search-input" placeholder="Search..." oninput="searchTMDB()" onclick="openSearchModal()" />
     </div>
   </div>
+
+  <!-- ✅ Featured Carousel -->
+  <section>
+    <h2>🎬 Featured Movies</h2>
+    <div class="splide" id="featured-carousel">
+      <div class="splide__track">
+        <ul class="splide__list" id="featured-list"></ul>
+      </div>
+    </div>
   </section>
-  
-  <!-- ✅ NAVBAR WITH HAMBURGER -->
-  <div class="navbar">
-    <div class="logo-text">Kimplex</div>
-  
+
+  <!-- ✅ Trending Movies -->
   <section>
     <h2>Trending Movies</h2>
     <div class="movie-list" id="trending-movies"></div>
   </section>
 
+  <!-- ✅ Trending TV Shows -->
   <section>
     <h2>Trending TV Shows</h2>
     <div class="movie-list" id="trending-tv"></div>
   </section>
 
+  <!-- ✅ Popular Movies -->
   <section>
     <h2>Popular Movies</h2>
     <div class="movie-list" id="popular-movies"></div>
   </section>
 
+  <!-- ✅ Popular Series -->
   <section>
     <h2>Popular Series</h2>
     <div class="movie-list" id="popular-series"></div>
   </section>
 
-  <!-- 🎥 Modal -->
+  <!-- ✅ Modal for Video Playback -->
   <div class="modal" id="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()" style="color: red;">&times;</span>
@@ -63,7 +72,7 @@
         </p>
       </div>
 
-      <iframe id="modal-video" width="100%" height="315" frameborder="0" allowfullscreen></iframe>
+      <iframe id="modal-video" width="100%" height="315" frameborder="0" allowfullscreen sandbox="allow-scripts allow-same-origin"></iframe>
 
       <div class="modal-text" style="text-align: left; margin-top: 15px;">
         <h2 id="modal-title"></h2>
@@ -73,7 +82,7 @@
     </div>
   </div>
 
-  <!-- 🔍 Search Modal -->
+  <!-- ✅ Search Modal -->
   <div class="modal" id="search-modal">
     <div class="modal-content" style="flex-direction: column; align-items: flex-start;">
       <span class="close" onclick="closeSearchModal()" style="color: red;">&times;</span>
@@ -81,7 +90,7 @@
     </div>
   </div>
 
-  <!-- 🦶 Footer -->
+  <!-- ✅ Footer Disclaimer -->
   <footer class="footer">
     <div class="footer-content">
       <p>&copy; 2025 Kimplex. All rights reserved.</p>
@@ -91,6 +100,8 @@
     </div>
   </footer>
 
+  <!-- ✅ Scripts -->
   <script src="home.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.min.js"></script>
 </body>
 </html>
