@@ -1,8 +1,14 @@
-const API_KEY = '77312bdd4669c80af3d08e0bf719d7ff'; 
+const API_KEY = '77312bdd4669c80af3d08e0bf719d7ff';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_BASE = 'https://image.tmdb.org/t/p/w500';
 
 const SERVERS = [
+  {
+    name: 'Vidsrc.to',
+    id: 'vidsrc',
+    url: (type, id) => `https://vidsrc.to/embed/${type}/${id}`
+  },
+  {
     name: 'Vidsrc.cc',
     id: 'vidsrccc',
     url: (type, id) => `https://vidsrc.cc/v2/embed/${type}/${id}`
@@ -31,7 +37,7 @@ function displayMedia(items, containerSelector, defaultType) {
     const mediaType = item.media_type || defaultType;
 
     const card = document.createElement('div');
-    card.classList.add('poster-wrapper');
+    card.classList.add('swiper-slide', 'poster-wrapper');
     card.innerHTML = `
       <img src="${poster}" alt="${title}" />
       <div class="poster-label">${title}</div>
@@ -57,18 +63,15 @@ function openPlayer(itemId, title, mediaType) {
   modal.innerHTML = `
     <div class="modal-content" style="position: relative;">
       <span class="close-btn">×</span>
-
       <label style="color: white;">Change Server:</label>
       <select id="server-select" style="margin-bottom: 10px;"></select>
-
       <div class="iframe-shield"></div>
       <iframe id="player-frame" width="100%" height="500" frameborder="0" allowfullscreen sandbox="allow-scripts allow-same-origin"></iframe>
-      <p style="color: #aaa; font-size: 12px; text-align: center;">This content is hosted by a third-party. We do not control the ads shown in the player.</p>
+      <p style="color: #aaa; font-size: 12px; text-align: center;">This video is hosted by a third-party. Ads may appear inside the player.</p>
     </div>
   `;
 
   document.body.appendChild(modal);
-
   const iframe = modal.querySelector('#player-frame');
   const select = modal.querySelector('#server-select');
 
@@ -82,9 +85,9 @@ function openPlayer(itemId, title, mediaType) {
   function loadServer(index) {
     const server = SERVERS[index];
     select.value = server.id;
-    const embedURL = server.id === 'vidsrc'
-      ? server.url(mediaType, itemId)
-      : server.url(mediaType, title);
+    const embedURL = server.id === 'apimocine'
+      ? server.url(mediaType, title)
+      : server.url(mediaType, itemId);
     iframe.src = embedURL;
 
     const shield = modal.querySelector('.iframe-shield');
@@ -101,7 +104,9 @@ function openPlayer(itemId, title, mediaType) {
   }
 
   loadServer(0);
+
   modal.querySelector('.close-btn').onclick = () => modal.remove();
+
   select.onchange = () => {
     const selectedIndex = SERVERS.findIndex(s => s.id === select.value);
     if (selectedIndex !== -1) loadServer(selectedIndex);
@@ -110,6 +115,6 @@ function openPlayer(itemId, title, mediaType) {
 
 document.addEventListener('DOMContentLoaded', () => {
   fetchAndDisplay('/trending/all/day', '.movie-list', 'movie');
-  fetchAndDisplay('/tv/popular', '.tv-list', 'tv');
   fetchAndDisplay('/movie/popular', '.popular-list', 'movie');
+  fetchAndDisplay('/tv/popular', '.tv-list', 'tv');
 });
