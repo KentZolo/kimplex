@@ -3,8 +3,15 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_BASE = 'https://image.tmdb.org/t/p/w500';
 
 const SERVERS = [
-  { name: 'Vidsrc.cc', id: 'vidsrccc', url: (type, id) => `https://vidsrc.cc/v2/embed/${type}/${id}` },
-  { name: 'Apimocine', id: 'apimocine', url: (type, title) => `https://apimocine.xyz/embed/${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}` },
+    name: 'Vidsrc.cc',
+    id: 'vidsrccc',
+    url: (type, id) => `https://vidsrc.cc/v2/embed/${type}/${id}`
+  },
+  {
+    name: 'Apimocine',
+    id: 'apimocine',
+    url: (type, title) => `https://apimocine.xyz/embed/${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
+  }
 ];
 
 async function fetchAndDisplay(endpoint, containerSelector, type) {
