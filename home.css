@@ -215,12 +215,15 @@ h2 {
   }
 }
   .logo-text {
-  font-size: 28px;
-  font-weight: bold;
-  color: red;
-  margin-bottom: 10px;
-  letter-spacing: 2px;
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 18px;
   text-align: center;
+  letter-spacing: 1px;
+
+  /* Gradient Color Setup */
+  background: linear-gradient(90deg, violet, deeppink);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   }
 /* Hamburger Menu Styling */
 .hamburger {
