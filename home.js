@@ -25,15 +25,17 @@ function displayList(items, containerId) {
 }
 
 function showDetails(item) {
-  // 🛠️ Fix: Add media_type if missing
   item.media_type = item.media_type || (item.title ? "movie" : "tv");
   currentItem = item;
+
   const type = item.media_type;
   const url = `?type=${type}&id=${item.id}`;
   window.history.pushState({}, '', url);
+
   document.getElementById('modal-title').textContent = item.title || item.name;
   document.getElementById('modal-description').textContent = item.overview;
   document.getElementById('modal-rating').innerHTML = '★'.repeat(Math.round(item.vote_average / 2));
+
   changeServer();
   document.getElementById('modal').style.display = 'flex';
 }
@@ -64,18 +66,6 @@ function changeServer() {
   iframe.onerror = () => {
     alert("⚠️ This movie is not available on this server. Try another.");
   };
-}
-
-// Genre filter (for movies)
-function filterByGenre(genreId) {
-  const endpoint = genreId
-    ? `/discover/movie?with_genres=${genreId}`
-    : '/movie/popular';
-
-  fetch(`${BASE_URL}${endpoint}&api_key=${API_KEY}`)
-    .then(res => res.json())
-    .then(data => displayList(data.results, 'popular-movies'))
-    .catch(err => console.error('Genre filter error:', err));
 }
 
 // 🔍 SEARCH FEATURE
@@ -119,16 +109,39 @@ function searchTMDB() {
     .catch(error => console.error('Search error:', error));
 }
 
-// Load content
-fetchData('/movie/now_playing', data => displayList(data, 'now-playing'));
+// Load content (removed now playing)
 fetchData('/trending/movie/day', data => displayList(data, 'trending-movies'));
 fetchData('/trending/tv/day', data => displayList(data, 'trending-tv'));
 fetchData('/movie/popular', data => displayList(data, 'popular-movies'));
 fetchData('/tv/popular', data => displayList(data, 'popular-series'));
-function toggleMenu() {
-  document.getElementById('menu').classList.toggle('show');
-}
-// ✅ AUTO-OPEN MODAL & VIDEO FROM URL
+
+// ✅ Load Featured Movies for Carousel
+fetch(`${BASE_URL}/movie/now_playing?api_key=${API_KEY}`)
+  .then(res => res.json())
+  .then(data => {
+    const featuredList = document.getElementById('featured-list');
+    data.results.slice(0, 5).forEach(movie => {
+      const li = document.createElement('li');
+      li.className = 'splide__slide';
+      li.innerHTML = `
+        <img src="${IMG_URL}${movie.backdrop_path || movie.poster_path}" alt="${movie.title}">
+        <div class="caption">${movie.title}</div>
+      `;
+      li.onclick = () => showDetails({ ...movie, media_type: "movie" });
+      featuredList.appendChild(li);
+    });
+
+    new Splide('#featured-carousel', {
+      type: 'loop',
+      perPage: 1,
+      autoplay: true,
+      arrows: true,
+      pagination: false,
+    }).mount();
+  })
+  .catch(err => console.error("Failed to load featured movies:", err));
+
+// ✅ Auto-open modal from URL if present
 window.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
@@ -138,9 +151,16 @@ window.addEventListener("DOMContentLoaded", () => {
     fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}`)
       .then(res => res.json())
       .then(data => {
-        data.media_type = type; // Manually set
-        showDetails(data);      // Open modal with video
+        if (data.success === false || data.status_code === 34) {
+          alert("❌ Movie or TV show not found.");
+          return;
+        }
+        data.media_type = type;
+        showDetails(data);
       })
-      .catch(err => console.error("Auto-load error:", err));
+      .catch(err => {
+        alert("⚠️ Something went wrong.");
+        console.error("Auto-load error:", err);
+      });
   }
 });
