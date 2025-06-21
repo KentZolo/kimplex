@@ -1,4 +1,4 @@
-const API_KEY = 'YOUR_API_KEY_HERE';
+const API_KEY = '77312bdd4669c80af3d08e0bf719d7ff';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 
@@ -51,5 +51,26 @@ function fetchFeaturedMovies() {
     });
 }
 
+function fetchNowPlaying() {
+  const url = new URL(`${BASE_URL}/movie/now_playing`);
+  url.searchParams.set('api_key', API_KEY);
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      const list = document.getElementById('now-playing');
+      data.results.forEach(movie => {
+        const div = document.createElement('div');
+        div.className = 'poster-wrapper';
+        div.innerHTML = `
+          <img src="${IMG_URL}${movie.poster_path}" alt="${movie.title}">
+          <div class="poster-label">${movie.title}</div>
+        `;
+        div.onclick = () => showDetails({ ...movie, media_type: 'movie' });
+        list.appendChild(div);
+      });
+    });
+}
+
 // Init
 fetchFeaturedMovies();
+fetchNowPlaying();
